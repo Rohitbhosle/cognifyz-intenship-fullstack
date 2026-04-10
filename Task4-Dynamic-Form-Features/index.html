@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 4 - Dynamic Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">DynReg</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Client-side routing: clicking these switches views without page reload -->
+                    <li class="nav-item"><a class="nav-link active" href="#" onclick="showView('registerView')">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showView('usersView')">View Users</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="main-wrapper">
+
+        <!-- ===================== -->
+        <!-- VIEW 1: REGISTER FORM -->
+        <!-- ===================== -->
+        <div id="registerView" class="view active">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+
+                        <div class="page-header">
+                            <h1>Create Account</h1>
+                            <p>All fields validated in real-time as you type</p>
+                        </div>
+
+                        <div class="form-card">
+
+                            <!-- Success message (hidden by default) -->
+                            <div id="successMsg" class="success-banner" style="display:none;">
+                                <span class="success-icon">✅</span>
+                                <div>
+                                    <strong id="successName"></strong> registered successfully!
+                                    <br><small id="successSub"></small>
+                                </div>
+                            </div>
+
+                            <!-- Error banner (hidden by default) -->
+                            <div id="errorBanner" class="error-banner" style="display:none;">
+                                <ul id="errorList"></ul>
+                            </div>
+
+                            <!-- FORM - uses fetch API, no page reload -->
+                            <div id="formArea">
+
+                                <!-- Name -->
+                                <div class="field-group">
+                                    <label>Full Name</label>
+                                    <input type="text" id="name" placeholder="Enter your full name" oninput="liveCheck('name')">
+                                    <span class="field-err" id="nameErr"></span>
+                                    <span class="field-ok" id="nameOk"></span>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="field-group">
+                                    <label>Email Address</label>
+                                    <input type="text" id="email" placeholder="Enter your email" oninput="liveCheck('email')">
+                                    <span class="field-err" id="emailErr"></span>
+                                    <span class="field-ok" id="emailOk"></span>
+                                </div>
+
+                                <!-- Age + Phone -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="field-group">
+                                            <label>Age</label>
+                                            <input type="number" id="age" placeholder="Your age" oninput="liveCheck('age')">
+                                            <span class="field-err" id="ageErr"></span>
+                                            <span class="field-ok" id="ageOk"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="field-group">
+                                            <label>Phone</label>
+                                            <input type="text" id="phone" placeholder="10 digits" oninput="liveCheck('phone')">
+                                            <span class="field-err" id="phoneErr"></span>
+                                            <span class="field-ok" id="phoneOk"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="field-group">
+                                    <label>Password</label>
+                                    <div class="pass-wrap">
+                                        <input type="password" id="password" placeholder="Min 8 chars, 1 uppercase, 1 number" oninput="liveCheck('password')">
+                                        <!-- Toggle show/hide password -->
+                                        <button type="button" class="eye-btn" onclick="togglePassword('password', this)">👁</button>
+                                    </div>
+                                    <span class="field-err" id="passwordErr"></span>
+                                    <span class="field-ok" id="passwordOk"></span>
+
+                                    <!-- Password rules checklist - updates live -->
+                                    <div class="pwd-rules" id="pwdRules">
+                                        <div class="rule" id="ruleLen">✗ At least 8 characters</div>
+                                        <div class="rule" id="ruleUpper">✗ One uppercase letter</div>
+                                        <div class="rule" id="ruleNum">✗ One number</div>
+                                    </div>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="field-group">
+                                    <label>Confirm Password</label>
+                                    <div class="pass-wrap">
+                                        <input type="password" id="confirmPassword" placeholder="Re-enter your password" oninput="liveCheck('confirmPassword')">
+                                        <button type="button" class="eye-btn" onclick="togglePassword('confirmPassword', this)">👁</button>
+                                    </div>
+                                    <span class="field-err" id="confirmPasswordErr"></span>
+                                    <span class="field-ok" id="confirmPasswordOk"></span>
+                                </div>
+
+                                <!-- Submit button -->
+                                <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+                                    <span id="btnText">Register Now</span>
+                                    <span id="btnLoader" style="display:none;">Submitting...</span>
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ===================== -->
+        <!-- VIEW 2: USERS TABLE   -->
+        <!-- dynamically loaded    -->
+        <!-- ===================== -->
+        <div id="usersView" class="view" style="display:none;">
+            <div class="container">
+
+                <div class="page-header">
+                    <h1>Registered Users</h1>
+                    <p>All data stored in server memory · Refreshes automatically</p>
+                </div>
+
+                <div class="users-card">
+                    <!-- User count badge - updates dynamically -->
+                    <div class="users-header">
+                        <span>Total Users: <strong id="userCount">0</strong></span>
+                        <button class="refresh-btn" onclick="loadUsers()">↻ Refresh</button>
+                    </div>
+
+                    <!-- Users table - DOM updated by JavaScript -->
+                    <div id="usersTableArea">
+                        <p class="loading-text">Loading users...</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        // =============================================
+        // CLIENT-SIDE ROUTING
+        // Switch between views without page reload
+        // =============================================
+        function showView(viewId) {
+            // Hide all views
+            var views = document.querySelectorAll('.view');
+            for (var i = 0; i < views.length; i++) {
+                views[i].style.display = 'none';
+            }
+
+            // Show the selected view
+            document.getElementById(viewId).style.display = 'block';
+
+            // If users view opened, load users automatically
+            if (viewId === 'usersView') {
+                loadUsers();
+            }
+
+            // Update active nav link
+            var links = document.querySelectorAll('.nav-link');
+            for (var j = 0; j < links.length; j++) {
+                links[j].classList.remove('active');
+            }
+            event.target.classList.add('active');
+        }
+
+
+        // =============================================
+        // LIVE VALIDATION - runs on every keystroke
+        // =============================================
+        function liveCheck(field) {
+            var value = document.getElementById(field).value;
+            var errEl = document.getElementById(field + 'Err');
+            var okEl = document.getElementById(field + 'Ok');
+
+            errEl.textContent = '';
+            okEl.textContent = '';
+
+            if (field === 'name') {
+                if (value.trim().length < 3) {
+                    errEl.textContent = 'Min 3 characters required';
+                } else if (!/^[a-zA-Z ]+$/.test(value.trim())) {
+                    errEl.textContent = 'Only letters allowed';
+                } else {
+                    okEl.textContent = '✓ Looks good';
+                }
+            }
+
+            if (field === 'email') {
+                if (!value.includes('@') || !value.includes('.')) {
+                    errEl.textContent = 'Enter a valid email';
+                } else {
+                    okEl.textContent = '✓ Valid email';
+                }
+            }
+
+            if (field === 'age') {
+                if (isNaN(value) || parseInt(value) < 1 || parseInt(value) > 100) {
+                    errEl.textContent = 'Age must be 1-100';
+                } else {
+                    okEl.textContent = '✓ Valid age';
+                }
+            }
+
+            if (field === 'phone') {
+                if (value.length !== 10 || isNaN(value)) {
+                    errEl.textContent = 'Must be exactly 10 digits';
+                } else {
+                    okEl.textContent = '✓ Valid phone';
+                }
+            }
+
+            if (field === 'password') {
+                // Update live password rules checklist
+                updatePasswordRules(value);
+
+                if (value.length < 8 || !/[A-Z]/.test(value) || !/[0-9]/.test(value)) {
+                    errEl.textContent = 'Password does not meet requirements';
+                } else {
+                    okEl.textContent = '✓ Strong password';
+                }
+
+                // Also re-check confirm password if already typed
+                var confirm = document.getElementById('confirmPassword').value;
+                if (confirm.length > 0) {
+                    liveCheck('confirmPassword');
+                }
+            }
+
+            if (field === 'confirmPassword') {
+                var pwd = document.getElementById('password').value;
+                if (value !== pwd) {
+                    errEl.textContent = 'Passwords do not match';
+                } else if (value.length > 0) {
+                    okEl.textContent = '✓ Passwords match';
+                }
+            }
+        }
+
+
+        // =============================================
+        // PASSWORD RULES CHECKLIST - updates live
+        // =============================================
+        function updatePasswordRules(pwd) {
+            var ruleLen = document.getElementById('ruleLen');
+            var ruleUpper = document.getElementById('ruleUpper');
+            var ruleNum = document.getElementById('ruleNum');
+
+            if (pwd.length >= 8) {
+                ruleLen.textContent = '✓ At least 8 characters';
+                ruleLen.classList.add('passed');
+            } else {
+                ruleLen.textContent = '✗ At least 8 characters';
+                ruleLen.classList.remove('passed');
+            }
+
+            if (/[A-Z]/.test(pwd)) {
+                ruleUpper.textContent = '✓ One uppercase letter';
+                ruleUpper.classList.add('passed');
+            } else {
+                ruleUpper.textContent = '✗ One uppercase letter';
+                ruleUpper.classList.remove('passed');
+            }
+
+            if (/[0-9]/.test(pwd)) {
+                ruleNum.textContent = '✓ One number';
+                ruleNum.classList.add('passed');
+            } else {
+                ruleNum.textContent = '✗ One number';
+                ruleNum.classList.remove('passed');
+            }
+        }
+
+
+        // =============================================
+        // TOGGLE PASSWORD VISIBILITY
+        // =============================================
+        function togglePassword(fieldId, btn) {
+            var input = document.getElementById(fieldId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁';
+            }
+        }
+
+
+        // =============================================
+        // SUBMIT FORM using fetch API (no page reload)
+        // =============================================
+        function submitForm() {
+
+            // Collect values
+            var data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                age: document.getElementById('age').value,
+                phone: document.getElementById('phone').value,
+                password: document.getElementById('password').value,
+                confirmPassword: document.getElementById('confirmPassword').value
+            };
+
+            // Show loading state on button
+            document.getElementById('btnText').style.display = 'none';
+            document.getElementById('btnLoader').style.display = 'inline';
+            document.getElementById('submitBtn').disabled = true;
+
+            // Hide previous messages
+            document.getElementById('successMsg').style.display = 'none';
+            document.getElementById('errorBanner').style.display = 'none';
+
+            // Send data to server using fetch (modern way, no page reload)
+            fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(result) {
+
+                // Reset button
+                document.getElementById('btnText').style.display = 'inline';
+                document.getElementById('btnLoader').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+
+                if (result.success) {
+                    // Show success message by updating DOM
+                    document.getElementById('successName').textContent = result.user.name;
+                    document.getElementById('successSub').textContent = 'Total users registered: ' + result.totalUsers;
+                    document.getElementById('successMsg').style.display = 'flex';
+
+                    // Clear all form fields
+                    clearForm();
+
+                    // Scroll to top of form
+                    document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth' });
+
+                } else {
+                    // Show errors by updating DOM
+                    var list = document.getElementById('errorList');
+                    list.innerHTML = '';
+
+                    for (var i = 0; i < result.errors.length; i++) {
+                        var li = document.createElement('li');
+                        li.textContent = result.errors[i];
+                        list.appendChild(li);
+                    }
+
+                    document.getElementById('errorBanner').style.display = 'block';
+                    document.getElementById('errorBanner').scrollIntoView({ behavior: 'smooth' });
+                }
+            })
+            .catch(function(err) {
+                console.log('Error:', err);
+                document.getElementById('btnText').style.display = 'inline';
+                document.getElementById('btnLoader').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            });
+        }
+
+
+        // =============================================
+        // CLEAR FORM after successful submit
+        // =============================================
+        function clearForm() {
+            var fields = ['name', 'email', 'age', 'phone', 'password', 'confirmPassword'];
+            for (var i = 0; i < fields.length; i++) {
+                document.getElementById(fields[i]).value = '';
+            }
+
+            // Clear all error and ok messages
+            var errSpans = document.querySelectorAll('.field-err, .field-ok');
+            for (var j = 0; j < errSpans.length; j++) {
+                errSpans[j].textContent = '';
+            }
+
+            // Reset password rules
+            updatePasswordRules('');
+        }
+
+
+        // =============================================
+        // LOAD USERS - fetches from server, updates DOM
+        // =============================================
+        function loadUsers() {
+            document.getElementById('usersTableArea').innerHTML = '<p class="loading-text">Loading...</p>';
+
+            fetch('/api/users')
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+
+                // Update user count badge
+                document.getElementById('userCount').textContent = data.total;
+
+                if (data.users.length === 0) {
+                    document.getElementById('usersTableArea').innerHTML =
+                        '<p class="no-users">No users registered yet. Go register someone! 👈</p>';
+                    return;
+                }
+
+                // Build table HTML dynamically using DOM manipulation
+                var html = '<table><thead><tr>';
+                html += '<th>#</th><th>Name</th><th>Email</th><th>Age</th><th>Phone</th><th>Date</th><th>Action</th>';
+                html += '</tr></thead><tbody>';
+
+                for (var i = 0; i < data.users.length; i++) {
+                    var u = data.users[i];
+                    html += '<tr id="row-' + u.id + '">';
+                    html += '<td>' + u.id + '</td>';
+                    html += '<td><strong>' + u.name + '</strong></td>';
+                    html += '<td>' + u.email + '</td>';
+                    html += '<td>' + u.age + '</td>';
+                    html += '<td>' + u.phone + '</td>';
+                    html += '<td>' + u.joinedAt + '</td>';
+                    html += '<td><button class="del-btn" onclick="deleteUser(' + u.id + ')">Delete</button></td>';
+                    html += '</tr>';
+                }
+
+                html += '</tbody></table>';
+                document.getElementById('usersTableArea').innerHTML = html;
+            });
+        }
+
+
+        // =============================================
+        // DELETE USER - removes row from DOM instantly
+        // =============================================
+        function deleteUser(id) {
+            if (!confirm('Delete this user?')) return;
+
+            fetch('/api/users/' + id, { method: 'DELETE' })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    // Remove the row from DOM without reloading page
+                    var row = document.getElementById('row-' + id);
+                    row.style.transition = 'opacity 0.4s';
+                    row.style.opacity = '0';
+                    setTimeout(function() {
+                        row.remove();
+                        // Update count
+                        var count = parseInt(document.getElementById('userCount').textContent) - 1;
+                        document.getElementById('userCount').textContent = count;
+                    }, 400);
+                }
+            });
+        }
+
+    </script>
+
+</body>
+</html>
