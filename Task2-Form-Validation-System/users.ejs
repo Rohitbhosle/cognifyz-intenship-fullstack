@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Registered Users</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="users-box">
+
+        <h2>All Registered Users (<%= allUsers.length %>)</h2>
+
+        <% if (allUsers.length == 0) { %>
+            <p>No users registered yet.</p>
+        <% } else { %>
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Phone</th>
+                </tr>
+                <% for (var i = 0; i < allUsers.length; i++) { %>
+                <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= allUsers[i].name %></td>
+                    <td><%= allUsers[i].email %></td>
+                    <td><%= allUsers[i].age %></td>
+                    <td><%= allUsers[i].phone %></td>
+                </tr>
+                <% } %>
+            </table>
+        <% } %>
+
+        <a href="/">Back to Registration Form</a>
+
+    </div>
+
+</body>
+</html>

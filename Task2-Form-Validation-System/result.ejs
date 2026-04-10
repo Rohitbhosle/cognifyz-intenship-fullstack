@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Successful</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="result-box">
+
+        <h2>Registration Successful! ✓</h2>
+        <p class="small-note">Your data has been saved to server storage. Total users registered: <%= totalUsers %></p>
+
+        <div class="info-row">Name: <span><%= user.name %></span></div>
+        <div class="info-row">Email: <span><%= user.email %></span></div>
+        <div class="info-row">Age: <span><%= user.age %></span></div>
+        <div class="info-row">Phone: <span><%= user.phone %></span></div>
+
+        <div class="links">
+            <a href="/">Register Another User</a>
+            <a href="/users">View All Users</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

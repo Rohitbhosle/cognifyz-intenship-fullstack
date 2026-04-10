@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Validation Error</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="error-box">
+
+        <h2>Please fix these errors:</h2>
+
+        <ul>
+            <!-- Loop through all errors and show them -->
+            <% for (var i = 0; i < errorList.length; i++) { %>
+                <li><%= errorList[i] %></li>
+            <% } %>
+        </ul>
+
+        <a href="/">Go Back to Form</a>
+
+    </div>
+
+</body>
+</html>
