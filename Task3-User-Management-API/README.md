@@ -1,6 +1,6 @@
 # Task 3 – User Management System
 
-A full-stack application that manages user data with form handling and dynamic rendering using EJS. It allows displaying and processing user information through a backend server.
+A full-stack application that manages user data using Node.js and Express. It supports handling user input, processing data, and rendering dynamic pages using EJS.
 
 ## Features
 - User data handling
