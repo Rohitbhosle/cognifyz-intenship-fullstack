@@ -1,14 +1,14 @@
-# Task 3 – User Management API
+# Task 3 – User Management System
 
-A backend application that provides RESTful APIs to manage users. It supports operations like creating, retrieving, updating, and deleting user data.
+A full-stack application that manages user data with form handling and dynamic rendering using EJS. It allows displaying and processing user information through a backend server.
 
 ## Features
-- CRUD operations
-- REST API endpoints
-- JSON data handling
+- User data handling
+- Dynamic rendering with EJS
+- Backend processing using Express
 
 ## Tech Stack
-Node.js, Express.js
+HTML, CSS, Node.js, Express.js, EJS
 
 ## Live Demo
 https://fd12d395-dc46-4626-969a-1e384966d620-00-6uczdkrehpz1.spock.replit.dev/api/task3/users
