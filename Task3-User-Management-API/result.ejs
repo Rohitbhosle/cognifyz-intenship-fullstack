@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="result-page">
+        <div class="result-card">
+
+            <div class="tick">✅</div>
+            <h2>Registration Successful!</h2>
+            <p class="note">Your data has been saved · Total users: <%= totalUsers %></p>
+
+            <div class="info-row">
+                <span class="label">Full Name</span>
+                <span class="value"><%= user.name %></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Email</span>
+                <span class="value"><%= user.email %></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Age</span>
+                <span class="value"><%= user.age %> years</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Phone</span>
+                <span class="value"><%= user.phone %></span>
+            </div>
+
+            <div class="result-links">
+                <a href="/">Register Again</a>
+                <a href="/users">View All Users</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

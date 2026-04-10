@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- This makes the page responsive on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegisterPro - Task 3</title>
+
+    <!-- Bootstrap CSS for responsive layout -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Our custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR SECTION -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">RegisterPro</a>
+
+            <!-- Hamburger button for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/users">View Users</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-text">
+                    <h1 class="hero-title">Welcome to <span>RegisterPro</span></h1>
+                    <p class="hero-subtitle">A clean and responsive user registration system built with Node.js, Express and Bootstrap.</p>
+                    <a href="#register" class="btn-main">Get Started</a>
+                </div>
+                <div class="col-lg-6 hero-image">
+                    <div class="hero-card">
+                        <div class="card-dot green"></div>
+                        <div class="card-dot yellow"></div>
+                        <div class="card-dot red"></div>
+                        <div class="card-content">
+                            <div class="fake-field"></div>
+                            <div class="fake-field short"></div>
+                            <div class="fake-field"></div>
+                            <div class="fake-btn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FEATURES SECTION -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">What This App Does</h2>
+            <p class="section-subtitle">Built for Cognifyz Internship Task 3 — Advanced CSS & Responsive Design</p>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>Form Validation</h3>
+                        <p>Both client-side and server-side validation to ensure clean data input every time.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Fully Responsive</h3>
+                        <p>Looks great on mobile, tablet and desktop using Bootstrap's grid system.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h3>Data Storage</h3>
+                        <p>Registered users are saved in server-side memory and can be viewed anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- REGISTRATION FORM SECTION -->
+    <section class="form-section" id="register">
+        <div class="container">
+            <h2 class="section-title">Create Your Account</h2>
+            <p class="section-subtitle">Fill in the details below to register</p>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+
+                    <div class="form-card">
+                        <form action="/submit" method="POST" onsubmit="return validateForm()">
+
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name">
+                                <span class="err" id="nameErr"></span>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
+                                <span class="err" id="emailErr"></span>
+                            </div>
+
+                            <!-- Age and Phone in same row -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" name="age" placeholder="Your age">
+                                        <span class="err" id="ageErr"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="10 digits">
+                                        <span class="err" id="phoneErr"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Minimum 6 characters">
+                                <span class="err" id="passwordErr"></span>
+                                <!-- Strength bar -->
+                                <div class="strength-bar mt-2">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <small class="strength-text" id="strengthText"></small>
+                            </div>
+
+                            <button type="submit" class="btn-submit w-100">Register Now</button>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>Built by <strong>Rohit Bhosle</strong> · Cognifyz Technologies Internship · Task 3</p>
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Client side validation script -->
+    <script>
+
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            var pwd = this.value;
+            var fill = document.getElementById('strengthFill');
+            var text = document.getElementById('strengthText');
+
+            if (pwd.length === 0) {
+                fill.style.width = '0%';
+                text.textContent = '';
+            } else if (pwd.length < 4) {
+                fill.style.width = '30%';
+                fill.style.backgroundColor = '#e74c3c';
+                text.textContent = 'Weak';
+                text.style.color = '#e74c3c';
+            } else if (pwd.length < 6) {
+                fill.style.width = '60%';
+                fill.style.backgroundColor = '#f39c12';
+                text.textContent = 'Medium';
+                text.style.color = '#f39c12';
+            } else {
+                fill.style.width = '100%';
+                fill.style.backgroundColor = '#2ecc71';
+                text.textContent = 'Strong';
+                text.style.color = '#2ecc71';
+            }
+        });
+
+
+        // Form validation before submit
+        function validateForm() {
+
+            // Clear old errors
+            var errorIds = ['nameErr', 'emailErr', 'ageErr', 'phoneErr', 'passwordErr'];
+            for (var i = 0; i < errorIds.length; i++) {
+                document.getElementById(errorIds[i]).textContent = '';
+            }
+
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var age = document.getElementById('age').value.trim();
+            var phone = document.getElementById('phone').value.trim();
+            var password = document.getElementById('password').value;
+
+            var isValid = true;
+
+            if (name.length < 3) {
+                document.getElementById('nameErr').textContent = 'Name must be at least 3 characters';
+                isValid = false;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                document.getElementById('emailErr').textContent = 'Enter a valid email address';
+                isValid = false;
+            }
+            if (age === '' || isNaN(age) || parseInt(age) < 1 || parseInt(age) > 100) {
+                document.getElementById('ageErr').textContent = 'Enter valid age (1-100)';
+                isValid = false;
+            }
+            if (phone.length !== 10 || isNaN(phone)) {
+                document.getElementById('phoneErr').textContent = 'Phone must be 10 digits';
+                isValid = false;
+            }
+            if (password.length < 6) {
+                document.getElementById('passwordErr').textContent = 'Password min 6 characters';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>
