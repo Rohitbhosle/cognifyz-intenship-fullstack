@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registration Successful</title>
+    <!-- We can use the same CSS file -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <div class="result-box">
+
+        <h2>Registration Successful!</h2>
+        <p>Here are the details you submitted:</p>
+
+        <!-- EJS prints server variables using the percentage equals syntax -->
+        <p>Name: <span><%= userName %></span></p>
+        <p>Email: <span><%= userEmail %></span></p>
+        <p>Age: <span><%= userAge %></span></p>
+
+        <!-- Link to go back to the form -->
+        <a class="back-link" href="/">← Register Another User</a>
+
+    </div>
+
+</body>
+
+</html>

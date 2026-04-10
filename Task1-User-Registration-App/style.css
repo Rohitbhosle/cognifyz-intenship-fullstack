@@ -1,0 +1,107 @@
+/* Basic reset - removes default browser spacing */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Background color for the whole page */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* The white box in the center */
+.container {
+    width: 400px;
+    background-color: white;
+    margin: 80px auto;
+    padding: 30px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+}
+
+/* Main heading style */
+h1 {
+    color: #333333;
+    margin-bottom: 8px;
+    font-size: 22px;
+}
+
+/* Small paragraph below heading */
+p {
+    color: #777777;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Label text above each input */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444444;
+}
+
+/* Input box styling */
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Submit button */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Button color change on hover */
+button:hover {
+    background-color: #45a049;
+}
+
+/* Result page styles */
+.result-box {
+    width: 400px;
+    background-color: white;
+    margin: 80px auto;
+    padding: 30px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+}
+
+.result-box h2 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.result-box p {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+.result-box span {
+    font-weight: bold;
+    color: #000000;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
